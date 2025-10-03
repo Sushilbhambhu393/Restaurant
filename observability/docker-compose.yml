@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  loki:
+    image: grafana/loki:3.5.5
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki-local-config.yaml:/etc/loki/local-config.yaml:ro
+      - ./wal-data:/wal
+      - ./loki-data:/var/loki
+      - D:/Projects/Restaurant/logs/app.log:/app/logs/app.log
+
+  promtail:
+    image: grafana/promtail:3.5.5
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/promtail.yaml:ro
+      - ./logs:/app/logs
+      - /var/log:/var/log:ro
+    command: -config.file=/etc/promtail/promtail.yaml
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:12.0.1
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - loki
