@@ -1,0 +1,29 @@
+server:
+  http_listen_port: 9080        # Promtail metrics & health endpoint
+  grpc_listen_port: 0           # disable gRPC if not used
+
+positions:
+  filename: /tmp/positions.yaml # tracks last read positions in logs
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push  # Loki endpoint
+
+scrape_configs:
+  - job_name: springboot-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: springboot
+          app: Restaurant
+          # additional labels (env, team, etc.)
+          __path__: /app/logs/*.log  # path to your Spring Boot logs
+
+# Optional: to include system logs, uncomment below
+#  - job_name: system-logs
+#    static_configs:
+#      - targets:
+#          - localhost
+#        labels:
+#          job: system
+#          __path__: /var/log/*.log

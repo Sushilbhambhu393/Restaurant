@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <title>Customer Menu</title>
+    <link rel="stylesheet" href="MainStyle.css">
+</head>
+<body>
+<div class="container">
+    <div class="menu-section">
+        <h1>Menu</h1>
+        <ol class="menu-list" id="menuList"></ol>
+    </div>
+    <div class="cart-section">
+        <h2>Your Cart</h2>
+        <ul class="cart-list" id="cartList"></ul>
+        <div class="cart-total" id="cartTotal">Total: ₹0</div>
+        <button class="checkout-btn" id="checkout-btn" onclick="checkout()">Checkout</button>
+        <div class="success-msg" id="successMsg">Thank you for your order!</div>
+    </div>
+</div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="MainScript.js"></script>
+</body>
+</html>

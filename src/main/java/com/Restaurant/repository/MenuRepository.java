@@ -1,9 +1,9 @@
 package com.Restaurant.repository;
-
-import com.Restaurant.model.MenuItem;
+import com.Restaurant.model.Menu;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.stereotype.Repository;
 
-
-public interface MenuRepository extends MongoRepository<MenuItem, String> {
+//@Repository
+public interface MenuRepository extends MongoRepository<Menu, Integer> {
+    // Custom queries can be added later if needed
 }
