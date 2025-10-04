@@ -90,12 +90,13 @@ let cart = [];
     // Calculate total amount
     let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0) * 100; // in paise
     let amount = total;
+    console.log("Total amount in paise: ", amount);
     fetch('http://localhost:8080/api/payment/create-order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ amount: total })
+                body: JSON.stringify({ amount: amount })
             })
                 .then(response => response.json())
                 .then(order => {
@@ -103,50 +104,19 @@ let cart = [];
                         "key": "rzp_test_RJzL1vYgKXXRyC",
                         "amount": order.amount,
                         "currency": order.currency,
-                        "name": "Your Company",
-                        "description": "Payment for your product",
+                        "name": "Shadow Company",
+                        "description": "Payment for your order",
                         "order_id": order.id,
                         "callback_url": "http://localhost:8080/api/payment/payment-callback",
                         "prefill": {
-                            "name": "User Name",
-                            "email": "user@example.com",
+                            "name": "Kalpesh Jain",
+                            "email": "kjain@yahoo.com",
                         }
                     };
                     const rzp1 = new Razorpay(options);
                     rzp1.open();
                 });
 
-<!--    // Call backend to create order-->
-<!--    const response = await fetch('http://localhost:8080/api/payment/create-order', {-->
-<!--        method: 'POST',-->
-<!--        headers: { 'Content-Type': 'application/json' },-->
-<!--        body: JSON.stringify({ amount: total })-->
-<!--    });-->
-<!--    const data = await response.json();-->
-
-<!--    var options = {-->
-<!--        "key": "rzp_test_RJzL1vYgKXXRyC", // Enter the Key ID generated from the Dashboard-->
-<!--        "amount": order.amount, // Use calculated amount-->
-<!--        "currency": "order.currency", // Use currency from order-->
-<!--        "name": "Acme Corp",-->
-<!--        "description": "Test Transaction",-->
-<!--        "image": "https://example.com/your_logo",-->
-<!--        "order_id": order.orderId, // Use correct property name (case-sensitive)-->
-<!--        "callback_url": "http://localhost:8080/api/payment/payment-callback",-->
-<!--        "prefill": {-->
-<!--            "name": "Gaurav Kumar",-->
-<!--            "email": "gaurav.kumar@example.com",-->
-<!--            "contact": "+919876543210"-->
-<!--        },-->
-<!--        "notes": {-->
-<!--            "address": "Razorpay Corporate Office"-->
-<!--        },-->
-<!--        "theme": {-->
-<!--            "color": "#3399cc"-->
-<!--        }-->
-<!--    };-->
-<!--    var rzp1 = new Razorpay(options);-->
-<!--    rzp1.open();-->
 }
 
     window.onload = function() {

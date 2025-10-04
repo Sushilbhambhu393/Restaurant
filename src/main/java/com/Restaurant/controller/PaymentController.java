@@ -5,10 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import com.razorpay.*;
 import org.json.JSONObject;
-
-import java.security.Signature;
-import java.util.Collection;
 import java.util.Map;
+
 @Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:63342")
@@ -19,7 +17,8 @@ public class PaymentController {
     private static final String KEY_SECRET = "3DjQU4X9t6RgV6xvvAybB5wr"; // Replace with your Key Secret
 
     @PostMapping("/create-order")
-    public String createOrder(@RequestParam("amount") int amount) throws RazorpayException {
+    public String createOrder(@RequestBody Map<String, Object> payload) throws RazorpayException {
+        int amount = (int) payload.get("amount");
         RazorpayClient razorpay = new RazorpayClient(KEY_ID, KEY_SECRET);
         JSONObject orderRequest = new JSONObject();
         orderRequest.put("amount", amount); // amount should already be in paise from frontend
@@ -30,6 +29,7 @@ public class PaymentController {
 //        JSONObject response = new JSONObject();
 //        response.put("orderId", (Collection<?>) order.get("id"));
 //        response.put("amount", order.get("amount"));
+        log.info("Order created: " + order.toString());
         return order.toString();
     }
 
@@ -38,14 +38,14 @@ public class PaymentController {
     public RedirectView paymentCallback(
             @RequestParam("razorpay_order_id") String razorpayOrderId,
             @RequestParam("razorpay_payment_id") String razorpayPaymentId,
-            @RequestParam("razorpay_signature") String razorpaySignature) throws RazorpayException
+            @RequestParam("razorpay_signature") String razorpaySignature)
              {
         try {
             JSONObject options = new JSONObject();
             options.put("razorpay_order_id", razorpayOrderId);
             options.put("razorpay_payment_id", razorpayPaymentId);
             options.put("razorpay_signature", razorpaySignature);
-
+            log.info("Verifying payment with details: " + options);
             String signature = razorpayOrderId + "|" + razorpayPaymentId;
             boolean isValid = Utils.verifySignature(signature, razorpaySignature, KEY_SECRET);
 
