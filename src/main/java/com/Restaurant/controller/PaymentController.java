@@ -18,7 +18,7 @@ public class PaymentController {
 
     @PostMapping("/create-order")
     public String createOrder(@RequestBody Map<String, Object> payload) throws RazorpayException {
-        int amount = (int) payload.getOrDefault("amount",100);
+        int amount = (int) payload.get("amount");
         RazorpayClient razorpay = new RazorpayClient(KEY_ID, KEY_SECRET);
         JSONObject orderRequest = new JSONObject();
         orderRequest.put("amount", amount); // amount should already be in paise from frontend
