@@ -5,10 +5,10 @@
     <property name="APP_NAME" value="Restaurant"/>
     <property name="LOG_PATH" value="observability/logs"/>
 
-    <!-- Console Appender -->
+    <!-- Console Appender with Colored Logs -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
