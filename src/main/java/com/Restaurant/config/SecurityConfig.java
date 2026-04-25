@@ -16,7 +16,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/user/**").hasRole("USER")
 //                        .requestMatchers("/visitor/**").permitAll()
-                          .requestMatchers("/visitor/**", "/admin/add", "/admin/addFoodItem").permitAll()
+                          .requestMatchers("/visitor/**", "/admin/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic();
